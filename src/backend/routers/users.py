@@ -1,9 +1,7 @@
-from fastapi import APIRouter, HTTPException, Query
-from typing import Annotated
-from sqlmodel import select, SQLModel, Field
-from sqlalchemy.orm import Session
-from .cat import AnswersCats, Cat_breed
-from .dog import AnswersDogs, Dog_breed
+from fastapi import APIRouter, HTTPException
+from sqlmodel import select, SQLModel
+from models import AnswersDogs, User, Dog_breed, AnswersCats, Cat_breed
+from dependencies import SessionDep
 
 router = APIRouter(
     prefix="/users",
@@ -12,16 +10,6 @@ router = APIRouter(
 )
 
 class UserBase(SQLModel):
-    name: str 
-
-class User(SQLModel, table=True): 
-    __tablename__ = "users"
-
-    id: int | None = Field(default=None, primary_key=True)
-    score_cat: int | None = None
-    score_dog: int | None = None
-    email: str
-    password: str
     name: str
 
 #модель для представления пользователя без конфиденциальной информации
@@ -45,24 +33,24 @@ class UserUpdate(UserBase):
     score_dog: int | None = None
 
 
-@router.get("/", response_model=list[UserPublic])
-def read_users(
-    db: Session,
-    offset: int = 0,
-    limit: Annotated[int, Query(le=100)] = 100
-    ):
-    users = db.exec(select(User).offset(offset).limit(limit)).all()
-    return users
+# @router.get("/", response_model=list[UserPublic])
+# def read_users(
+#     offset: int = 0,
+#     db: SessionDep,
+#     limit: Annotated[int, Query(le=100)] = 100
+#     ):
+#     users = db.exec(select(User).offset(offset).limit(limit)).all()
+#     return users
 
 @router.get("/{user_id}", response_model=UserPublic)
-def read_user(db: Session, user_id: int):
+def read_user(user_id: int, db: SessionDep):
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")
     return user
 
 @router.delete("/{user_id}")
-def delete_user(db: Session, user_id: int):
+def delete_user(user_id: int, db: SessionDep):
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")
@@ -71,7 +59,7 @@ def delete_user(db: Session, user_id: int):
     return {"ok": True}
 
 @router.patch("/{user_id}", response_model=UserPublic)
-def update_user(db: Session, user_id: int, user: UserUpdate):
+def update_user(user_id: int, user: UserUpdate, db: SessionDep):
     user_db = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Пользователь не найден")
@@ -83,15 +71,15 @@ def update_user(db: Session, user_id: int, user: UserUpdate):
     return user_data
 
 @router.post("/", response_model=UserPublic)
-def create_user(db: Session, user: UserCreate):
+def create_user(user: UserCreate, db: SessionDep):
     db_user = User.model_validate(user)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
 
-@router.post("/sum_scores/{user_id}", tags=["user"])
-def sum_scores_by_question_id(db: Session, answer_id: int, user_id: int):
+@router.post("/sum_scores/{user_id}")
+def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     answersCats = db.exec(select(AnswersCats).where(AnswersCats.id == answer_id)).all()
     # Суммируем баллы за ответы
     total_score_cat = sum(answer.score for answer in answersCats)
@@ -105,7 +93,7 @@ def sum_scores_by_question_id(db: Session, answer_id: int, user_id: int):
     return {"message": "Суммарные баллы успешно сохранены", "user_id": user.id, "total_score": user.score_cat}
 
 @router.get("/users/{user_id}/cat_breed")
-def get_cat_breed(db: Session, user_id: int):
+def get_cat_breed(user_id: int, db: SessionDep):
     # Получаем пользователя по user_id
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
@@ -127,7 +115,7 @@ def get_cat_breed(db: Session, user_id: int):
         return {"message": "Нет информации"}
     
 @router.post("/answersDogs/sum_scores/{answer_id}/{user_id}")
-def sum_scores_by_question_id(db: Session, answer_id: int, user_id: int):
+def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     answersDogs = db.exec(select(AnswersDogs).where(AnswersDogs.id == answer_id)).all()
     # Суммируем баллы за ответы
     total_score_dog = sum(answer.score for answer in answersDogs)
@@ -142,7 +130,7 @@ def sum_scores_by_question_id(db: Session, answer_id: int, user_id: int):
 
 
 @router.get("/users/{user_id}/dog_breed")
-def get_dog_breed(db: Session, user_id: int):
+def get_dog_breed(user_id: int, db: SessionDep):
     # Получаем пользователя по user_id
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
