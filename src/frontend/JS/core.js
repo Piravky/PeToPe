@@ -7,4 +7,5 @@ document.querySelectorAll('.btn').forEach(button => {
       this.classList.add('clicked'); // Добавление класса 'clicked' к нажатой кнопке
     });
   });
+
   
