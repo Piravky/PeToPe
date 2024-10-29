@@ -32,8 +32,12 @@ body {
 
 .btn-padding {
     padding: 0px;
-}
-
+  }
+  
+  .btn-padding.clicked {
+    background-color: white; /* Белый цвет при нажатии */
+  }
+  
 
 
 /* second main*/
