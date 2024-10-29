@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Query, HTTPException
-from sqlmodel import SQLModel, Field, select
-from typing import Annotated
-from ..dependencies import SessionDep
+from fastapi import APIRouter, HTTPException
+from sqlalchemy.orm import Session
+from sqlmodel import SQLModel, Field
 
 router = APIRouter(
     prefix="/dog",
@@ -67,8 +66,8 @@ class Dog_breedPublic(Dog_breedBase):
     health_risks: str
 
 @router.get("/question/{id_question}", response_model=QuestionDogsPublic)
-def read_questionDogs(id_question: int, session: SessionDep):
-    questionDogs = session.get(QuestionDogs, id_question)
+def read_questionDogs(db: Session, id_question: int):
+    questionDogs = db.get(QuestionDogs, id_question)
     if not questionDogs:
         raise HTTPException(status_code=404, detail="Вопрос не найден")
     return questionDogs #TODO добавить добавление ответов к возвращаемому значению
