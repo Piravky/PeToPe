@@ -32,12 +32,16 @@ body {
 
 .btn-padding {
     padding: 0px;
+    
   }
   
-  .btn-padding.clicked {
+.btn-padding.clicked {
     background-color: white; /* Белый цвет при нажатии */
   }
   
+.bor-R {
+    border-radius: 30px;
+}
 
 
 /* second main*/
