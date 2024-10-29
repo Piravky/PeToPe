@@ -83,5 +83,5 @@ body {
   }
   
 .btn-p.clicked {
-    background-color: rgb(255, 162, 0); /* Белый цвет при нажатии */
+    background-color: #FFC960; /* Белый цвет при нажатии */
   }
