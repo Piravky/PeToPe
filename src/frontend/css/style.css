@@ -76,3 +76,12 @@ body {
 .fixed_width{
     width:400px;
 }
+
+.btn-p {
+    background-color: white
+    
+  }
+  
+.btn-p.clicked {
+    background-color: rgb(255, 162, 0); /* Белый цвет при нажатии */
+  }
