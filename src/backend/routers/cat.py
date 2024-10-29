@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, select
 
 router = APIRouter(
     prefix="/cat",
@@ -62,16 +62,23 @@ class Cat_breedPublic(Cat_breedBase):
     allergy: str
     care: str
 
-@router.get("/question/{id_question}", response_model=QuestionCatsPublic)
-def read_questionCats(db: Session, id_question: int):
-    questionCats = db.get(QuestionCats, id_question)
-    if not questionCats:
+@router.get("/answers/question/{question_id}")
+def read_answers_by_question_id(db: Session, question_id: int):
+    answersCats = db.exec(select(AnswersCats).where(AnswersCats.id_question == question_id)).all()
+    if not answersCats:
+        raise HTTPException(status_code=404, detail="Ответы не найдены для данного вопроса")
+    question = db.exec(select(QuestionCats).where(QuestionCats.id_question == question_id)).first()
+    
+    if not question:
         raise HTTPException(status_code=404, detail="Вопрос не найден")
-    return questionCats #TODO добавить добавление ответов к возвращаемому значению
-
-# @router.get("/answersCats/question/{question_id}", response_model=list[AnswersCatsPublic])
-# def read_answers_by_question_id(question_id: int, session: SessionDep):
-#     answersCats = session.exec(select(AnswersCats).where(AnswersCats.id_question == question_id)).all()
-#     if not answersCats:
-#         raise HTTPException(status_code=404, detail="Ответы не найдены для данного вопроса")
-#     return answersCats
+    
+    question_data = question.question
+    
+    answers_data = [
+        (
+            answer.answers
+        )
+        for answer in answersCats
+    ]
+    
+    return question_data, answers_data
