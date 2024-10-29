@@ -1,0 +1,27 @@
+body {
+    background: #ffb901;
+}
+
+@font-face {
+    font-family: 'Ermilov'; /* Задаем имя шрифта */
+    src: url('../шрифты/Ermilov-bold.otf') format('otf'), /* Путь к файлу шрифта */
+         url('../шрифты/Ermilov-bold.otf') format('otf'); /* Другой формат, если необходимо */
+    font-weight: normal; /* Вес шрифта (normal, bold и т.д.) */
+    font-style: normal; /* Стиль (normal, italic и т.д.) */
+}
+
+.text {
+    font-family: 'Ermilov', sans-serif; /* Используем системный шрифт */ 
+    margin-left: 20px;
+    margin-bottom: 0; /* Отступ слева для текста */
+    color: black; /* Цвет текста */
+    font-size: 30px; /* Размер шрифта */
+}
+
+.text-h3 {
+    font-family: 'Ermilov', sans-serif; /* Используем системный шрифт */ 
+    margin-left: 20px; /* Отступ слева для текста */
+    color: black; /* Цвет текста */
+    font-size: 20px; /* Размер шрифта */
+    opacity: 0.7; /* Прозрачность текста */
+}
