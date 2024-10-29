@@ -1,4 +1,7 @@
 body {
+
+    padding: 0px;
+
     background: #ffb901;
     font-family: 'Ermilov', sans-serif; /* Используем системный шрифт */ 
 }
@@ -32,4 +35,35 @@ body {
 
 .btn-padding {
     padding: 0px;
+}
+
+
+
+/* second main*/
+
+
+
+.container{
+    margin: 0px 150px;
+    text-align: center;
+}
+
+.answerbutton{
+    
+    justify-content: center;
+    padding: 0px;
+    display: flex;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-bottom: 17px;
+    text-decoration: none;
+    border: 3px gray solid;
+    
+}
+
+.answerbutton p{
+    color: #000;
+    text-align: center;
+    font-size: 25px;
+    
 }
