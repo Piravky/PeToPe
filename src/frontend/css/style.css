@@ -48,7 +48,7 @@ body {
 
 
 
-.container{
+/* .container{
     margin: 0px 150px;
     text-align: center;
 }
@@ -71,4 +71,8 @@ body {
     text-align: center;
     font-size: 25px;
     
+} */
+
+.fixed_width{
+    width:400px;
 }
