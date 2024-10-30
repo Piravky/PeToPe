@@ -78,7 +78,7 @@ def create_user(user: UserCreate, db: SessionDep):
     db.refresh(db_user)
     return db_user
 
-@router.post("/sum_scores/{user_id}")
+@router.post("/cat/sum_scores/{user_id}")
 def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     answersCats = db.exec(select(AnswersCats).where(AnswersCats.id == answer_id)).all()
     # Суммируем баллы за ответы
@@ -114,7 +114,7 @@ def get_cat_breed(user_id: int, db: SessionDep):
     else:
         return {"message": "Нет информации"}
     
-@router.post("/answersDogs/sum_scores/{answer_id}/{user_id}")
+@router.post("dDog/sum_scores/{answer_id}/{user_id}")
 def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     answersDogs = db.exec(select(AnswersDogs).where(AnswersDogs.id == answer_id)).all()
     # Суммируем баллы за ответы

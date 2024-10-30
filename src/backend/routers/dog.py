@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException
-from sqlalchemy.orm import Session
 from sqlmodel import SQLModel, select
 from models import AnswersDogs, QuestionDogs
 from dependencies import SessionDep
