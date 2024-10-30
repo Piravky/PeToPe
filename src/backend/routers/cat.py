@@ -48,9 +48,10 @@ def read_answers_by_question_id(question_id: int, db: SessionDep):
     question_data = question.question
     
     answers_data = [
-        (
-            answer.answers
-        )
+         {
+            "Ответ": answer.answers,
+            "id": answer.id
+        }
         for answer in answersCats
     ]
     
