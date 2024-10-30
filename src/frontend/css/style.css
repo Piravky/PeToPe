@@ -28,11 +28,12 @@ body {
     border-radius: 30px; /* Радиус скругления углов рамки */
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2); /* Тень для мелкой глубины */
     text-align: center; /* Центрируем текст */
+    
 }
 
 .btn-padding {
     padding: 0px;
-    
+    background-color: #FFC960;
   }
   
 .btn-padding.clicked {
@@ -86,4 +87,5 @@ body {
   
 .btn-p.clicked {
     background-color: #FFC960; /* Белый цвет при нажатии */
+    border: 4px solid #ffffff; /* Задайте цвет и толщину обводки */
   }
