@@ -15,6 +15,8 @@ class UserBase(SQLModel):
 #модель для представления пользователя без конфиденциальной информации
 class UserPublic(UserBase):
     id: int
+    score_cat: int
+    score_dog: int 
 
 # модель для создания нового пользователя
 class UserCreate(UserBase):
@@ -31,7 +33,6 @@ class UserUpdate(UserBase):
     email: str | None = None
     score_cat: int | None = None
     score_dog: int | None = None
-
 
 # @router.get("/", response_model=list[UserPublic])
 # def read_users(
@@ -69,6 +70,18 @@ def update_user(user_id: int, user: UserUpdate, db: SessionDep):
     db.commit()
     db.refresh(user_data)
     return user_data
+
+@router.post("/score_none/{user_id}", response_model=UserPublic)
+def reset_score(user_id: int, db: SessionDep):
+    user = db.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
+    user.score_cat = 0
+    user.score_dog = 0
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
 
 @router.post("/", response_model=UserPublic)
 def create_user(user: UserCreate, db: SessionDep):
@@ -114,7 +127,7 @@ def get_cat_breed(user_id: int, db: SessionDep):
     else:
         return {"message": "Нет информации"}
     
-@router.post("dog/sum_scores/{answer_id}/{user_id}")
+@router.post("/dog/sum_scores/{user_id}")
 def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     answersDogs = db.exec(select(AnswersDogs).where(AnswersDogs.id == answer_id)).all()
     # Суммируем баллы за ответы

@@ -35,7 +35,7 @@ class Cat_breedPublic(Cat_breedBase):
     allergy: str
     care: str
 
-@router.get("/answers/question/{question_id}")
+@router.get("/question/{question_id}")
 def read_answers_by_question_id(question_id: int, db: SessionDep):
     answersCats = db.exec(select(AnswersCats).where(AnswersCats.id_question == question_id)).all()
     if not answersCats:
@@ -45,12 +45,17 @@ def read_answers_by_question_id(question_id: int, db: SessionDep):
     if not question:
         raise HTTPException(status_code=404, detail="Вопрос не найден")
     
-    question_data = question.question
+    question_data = [
+        {
+            "id": question.id_question,
+            "question": question.question
+        }
+    ]
     
     answers_data = [
-         {
-            "Ответ": answer.answers,
-            "id": answer.id
+        {
+            "id": answer.id, 
+            "answer": answer.answers
         }
         for answer in answersCats
     ]

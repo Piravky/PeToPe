@@ -52,12 +52,17 @@ def read_answers_by_question_id(question_id: int, db: SessionDep):
     if not question:
         raise HTTPException(status_code=404, detail="Вопрос не найден")
 
-    question_data = question.question
+    question_data = [
+        {
+            "id": question.id_question,
+            "question": question.question
+        }
+    ]
 
     answers_data = [
         {
-            "Ответ": answer.answers,
-            "id": answer.id
+            "id": answer.id, 
+            "answer": answer.answers
         }
         for answer in answersDogs
     ]

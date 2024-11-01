@@ -1,2 +1,5 @@
 .idea
 .venv
+__pycache__
+src/backend/__pycache__
+src/backend/routers/__pycache__
