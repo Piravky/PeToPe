@@ -105,7 +105,7 @@ def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     db.refresh(user)
     return {"message": "Суммарные баллы успешно сохранены", "user_id": user.id, "total_score": user.score_cat}
 
-@router.get("/users/{user_id}/cat_breed")
+@router.get("/{user_id}/cat_breed")
 def get_cat_breed(user_id: int, db: SessionDep):
     # Получаем пользователя по user_id
     user = db.query(User).filter(User.id == user_id).first()
@@ -142,7 +142,7 @@ def sum_scores_by_question_id(answer_id: int, user_id: int, db: SessionDep):
     return {"message": "Суммарные баллы успешно сохранены", "user_id": user.id, "total_score": user.score_dog}
 
 
-@router.get("/users/{user_id}/dog_breed")
+@router.get("/{user_id}/dog_breed")
 def get_dog_breed(user_id: int, db: SessionDep):
     # Получаем пользователя по user_id
     user = db.query(User).filter(User.id == user_id).first()
