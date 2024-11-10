@@ -1,3 +1,4 @@
+// Обработчик кнопок
 document.querySelectorAll('.btn').forEach(button => {
   button.addEventListener('click', function () {
     // Удаление класса 'clicked' с других кнопок
@@ -8,16 +9,14 @@ document.querySelectorAll('.btn').forEach(button => {
   });
 });
 
+// Функция для отображения вопросов и ответов
 function drawQuestions(data) {
   console.log(data); // Обработка полученных данных
-  console.log('Вопрос ' + data[0]["id"])
+  console.log('Вопрос ' + data[0]["id"]);
   console.log(data[0]["question"]);
-  for (let i = 0; i < data[1].length; i++) {
-    console.log(data[1][i]["answer"]);
-  }
-
-
+  
   const form = document.getElementById('catForm');
+  form.innerHTML = ''; // Очищаем форму перед добавлением новых элементов
 
   // Создаем элемент для вопроса
   const questionLabel = document.createElement('label');
@@ -30,7 +29,7 @@ function drawQuestions(data) {
     const button = document.createElement('button');
     button.textContent = answer['answer'];
     button.className = 'answer-button';
-    button.type = 'button'; // Устанавливаем тип кнопки как 'button'\
+    button.type = 'button'; // Устанавливаем тип кнопки как 'button'
     form.appendChild(document.createElement('br')); // Добавляем перенос строки
 
     // Добавляем обработчик события для кнопки
@@ -50,6 +49,9 @@ function drawQuestions(data) {
 
   // Обработчик события для формы
   form.addEventListener('submit', function (event) {
+
+    
+    
     event.preventDefault(); // Предотвращаем стандартное поведение отправки формы
     alert('Форма отправлена.');
   });
@@ -57,51 +59,59 @@ function drawQuestions(data) {
 
 }
 
-
-// создание функции в JavaScript
+// Функция Jmak для получения данных и перехода на новую страницу
 function Jmak() {
+  let url = "";
+  const ip = "192.168.1.125"; // IP адрес
+  var currentid = 1;
 
-  url = "";
-  ip = "192.168.0.21" // Каждый раз надо писать новый IP
+  
 
   const button_cat = document.getElementById('id_button_cat');
   const button_dog = document.getElementById('id_button_dog');
 
   if (button_cat.classList.contains('clicked')) {
-    url = 'http://' + ip + ':8001/cat/question/1'
-  }
-  else if (button_dog.classList.contains('clicked')) {
-    url = 'http://' + ip + ':8001/dog/question/1'
-  }
-  else {
+    url = 'http://' + ip + ':8001/cat/question/' + currentid;
+  } else if (button_dog.classList.contains('clicked')) {
+    url = 'http://' + ip + ':8001/dog/question/' + currentid;
+  } else {
     alert("Не выбрано животное");
     return;
   }
 
-  // alert("Жмак");
-  fetch(url, {})
-    .then(response => {
-      if (response.ok) {
-        return response.json(); // Если CORS настроен правильно, мы можем получить данные
-      } else {
-        throw new Error('Network response was not ok');
-      }
-    })
-    .then(d => {
-      drawQuestions(d);
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
+  // Сохраняем URL в localStorage
+  localStorage.setItem('questionUrl', url);
 
-
-
+  // Переход на новую страницу
+  window.location.href = 'newPage.html'; // Замените 'newPage.html' на нужный URL
 }
 
+// Проверка на новой странице
+if (window.location.pathname.includes('newPage.html')) {
+  const url = localStorage.getItem('questionUrl');
 
+  if (url) {
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .then(data => {
+        drawQuestions(data); // Вызов функции с полученными данными
+      })
+      .catch(error => {
+        console.error('Проблема с операцией fetch:', error);
+      });
+  } else {
+    console.error('URL не найден в localStorage');
+  }
+}
 
-
-
-
-
+function nextCurrentid() {
+  currentid += 1;
+  alert ("id next")
+}
 
