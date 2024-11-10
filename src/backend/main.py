@@ -9,7 +9,7 @@ app = FastAPI(
     title="PeToPe"
 )
 
-# Настройка CORS
+# Настройка CORS 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Разрешить все источники, можно указать конкретные URL
