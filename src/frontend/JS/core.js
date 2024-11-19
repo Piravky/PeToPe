@@ -59,25 +59,28 @@ function drawQuestions(data) {
 
 }
 
+var countQuestions = 0;
 // Функция Jmak для получения данных и перехода на новую страницу
 function Jmak() {
   let url = "";
-  const ip = "192.168.1.125"; // IP адрес
-  var currentid = 1;
-
+  const ip = "10.22.202.111"; // IP адрес
+  
   
 
   const button_cat = document.getElementById('id_button_cat');
   const button_dog = document.getElementById('id_button_dog');
 
   if (button_cat.classList.contains('clicked')) {
-    url = 'http://' + ip + ':8001/cat/question/' + currentid;
+    url = 'http://' + ip + ':8001/cat/question/';
+    countQuestions = 12
   } else if (button_dog.classList.contains('clicked')) {
-    url = 'http://' + ip + ':8001/dog/question/' + currentid;
+    url = 'http://' + ip + ':8001/dog/question/';
+    countQuestions = 18;
   } else {
     alert("Не выбрано животное");
     return;
   }
+  
 
   // Сохраняем URL в localStorage
   localStorage.setItem('questionUrl', url);
@@ -91,27 +94,25 @@ if (window.location.pathname.includes('newPage.html')) {
   const url = localStorage.getItem('questionUrl');
 
   if (url) {
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .then(data => {
-        drawQuestions(data); // Вызов функции с полученными данными
-      })
-      .catch(error => {
-        console.error('Проблема с операцией fetch:', error);
-      });
+    for (let i = 1; i <= 13; i++) {
+      new_url = url + i.toString()
+      console.log(new_url)
+      fetch(new_url)
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        })
+        .then(data => {
+          drawQuestions(data); // Вызов функции с полученными данными
+        })
+        .catch(error => {
+          console.error('Проблема с операцией fetch:', error);
+        });
+    }
   } else {
     console.error('URL не найден в localStorage');
   }
 }
-
-function nextCurrentid() {
-  currentid += 1;
-  alert ("id next")
-}
-
