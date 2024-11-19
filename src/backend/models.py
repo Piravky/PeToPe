@@ -65,7 +65,8 @@ class Cat_breed(SQLModel, table=True):
     allergy: str
     communication: str
     care: str
-    scores: int
+    scores_max: int
+    scores_min: int
 
 
 class QuestionCats(SQLModel, table=True):

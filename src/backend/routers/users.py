@@ -115,15 +115,25 @@ def get_cat_breed(user_id: int, db: SessionDep):
     user_score_cat = user.score_cat
 
     # Ищем породу кота с совпадающими баллами
-    cat_breed = db.query(Cat_breed).filter(Cat_breed.scores == user_score_cat).first()
+    cat_breeds = db.query(Cat_breed).filter(
+        Cat_breed.scores_min <= user_score_cat,
+        Cat_breed.scores_max >= user_score_cat
+    ).all()
 
-    if cat_breed:
-        # Если порода найдена, возвращаем информацию о ней
-        return {
-            "Порода": cat_breed.name,
-            "Описание": cat_breed.description,
-            "points_required": cat_breed.scores
-        }
+    if cat_breeds:  
+        breeds_info = []
+        for cat_breed in cat_breeds:
+            breeds_info.append({
+                "Порода": cat_breed.name,
+                "Описание": cat_breed.description,
+                "Активность": cat_breed.activity,
+                "Размер": cat_breed.size,
+                "Шерсть": cat_breed.wool,
+                "Аллергия": cat_breed.allergy,
+                "Коммуникация": cat_breed.communication,
+                "Уход": cat_breed.care
+            })
+        return breeds_info
     else:
         return {"message": "Нет информации"}
     
