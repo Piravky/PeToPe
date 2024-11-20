@@ -162,14 +162,25 @@ def get_dog_breed(user_id: int, db: SessionDep):
     user_score_dog = user.score_dog
 
     # Ищем породу кота с совпадающими баллами
-    dog_breed = db.query(Dog_breed).filter(Dog_breed.scores == user_score_dog).first()
+    dog_breeds = db.query(Dog_breed).filter(
+        Dog_breed.scores_min <= user_score_dog,
+        Dog_breed.scores_max >= user_score_dog
+    ).all()
 
-    if dog_breed:
-        # Если порода найдена, возвращаем информацию о ней
-        return {
-            "Порода": dog_breed.name,
-            "Описание": dog_breed.description,
-            "points_required": dog_breed.scores
-        }
+    if dog_breeds:  
+        breeds_info = []
+        for dog_breed in dog_breeds:
+            breeds_info.append({
+                "Порода": dog_breed.name,
+                "Описание": dog_breed.description,
+                "Активность": dog_breed.activity,
+                "Размер": dog_breed.size,
+                "Шерсть": dog_breed.wool,
+                "Аллергия": dog_breed.allergy,
+                "Коммуникация": dog_breed.communication,
+                "Здоровье": dog_breed.health_risks
+            })
+        return breeds_info
     else:
-        return {"message": "Нет информации"}
+        return {"message": "Вам стоит тщательно оценить свои возможности и готовность к уходу за питомцем, а также учитывать, что  собаки могут потребовать больше времени и усилий для достижения гармонии в отношениях с хозяином и окружающими."}
+    

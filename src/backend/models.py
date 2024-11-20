@@ -32,9 +32,9 @@ class Dog_breed(SQLModel, table=True):
     wool: str
     allergy: str
     communication: str
-    attentiveness: int
     health_risks: str
-    scores: int
+    scores_max: int
+    scores_min: int
 
 
 class QuestionDogs(SQLModel, table=True):
