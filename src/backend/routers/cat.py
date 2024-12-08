@@ -34,6 +34,7 @@ class Cat_breedPublic(Cat_breedBase):
     communication: str
     allergy: str
     care: str
+    image: str
 #вопросы
 @router.get("/question/{question_id}")
 def read_answers_by_question_id(question_id: int, db: SessionDep):

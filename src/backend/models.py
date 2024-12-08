@@ -67,6 +67,7 @@ class Cat_breed(SQLModel, table=True):
     care: str
     scores_max: int
     scores_min: int
+    image: str
 
 
 class QuestionCats(SQLModel, table=True):

@@ -131,7 +131,8 @@ def get_cat_breed(user_id: int, db: SessionDep):
                 "Шерсть": cat_breed.wool,
                 "Аллергия": cat_breed.allergy,
                 "Коммуникация": cat_breed.communication,
-                "Уход": cat_breed.care
+                "Уход": cat_breed.care,
+                "фотка": cat_breed.image
             })
         return breeds_info
     else:
