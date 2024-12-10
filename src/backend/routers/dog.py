@@ -40,6 +40,7 @@ class Dog_breedPublic(Dog_breedBase):
     communication: str
     attentiveness: int
     health_risks: str
+    image: str
 
 
 @router.get("/question/{question_id}")

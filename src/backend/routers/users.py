@@ -179,7 +179,8 @@ def get_dog_breed(user_id: int, db: SessionDep):
                 "Шерсть": dog_breed.wool,
                 "Аллергия": dog_breed.allergy,
                 "Коммуникация": dog_breed.communication,
-                "Здоровье": dog_breed.health_risks
+                "Здоровье": dog_breed.health_risks,
+                "фотка": dog_breed.image
             })
         return breeds_info
     else:
