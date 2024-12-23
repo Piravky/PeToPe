@@ -1,0 +1,1 @@
+const IP_API = "https://api.petope.ru"

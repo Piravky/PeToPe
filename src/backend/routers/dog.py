@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from sqlmodel import SQLModel, select
 from models import AnswersDogs, QuestionDogs
 from dependencies import SessionDep
+from schemas import UserBase
+from auth.oauth2 import get_current_user
 
 router = APIRouter(
     prefix="/dog",
@@ -10,41 +12,8 @@ router = APIRouter(
 )
 
 
-class QuestionDogsBase(SQLModel):
-    question: str
-
-
-class QuestionDogsPublic(QuestionDogsBase):
-    question: str
-
-
-class AnswersDogsBase(SQLModel):
-    answers: str
-
-
-class AnswersDogsPublic(AnswersDogsBase):
-    answers: str
-
-
-class Dog_breedBase(SQLModel):
-    name: str
-
-
-class Dog_breedPublic(Dog_breedBase):
-    name: str
-    description: str
-    activity: str
-    size: str
-    wool: str
-    allergy: str
-    communication: str
-    attentiveness: int
-    health_risks: str
-    image: str
-
-
 @router.get("/question/{question_id}")
-def read_answers_by_question_id(question_id: int, db: SessionDep):
+def read_answers_by_question_id(question_id: int, db: SessionDep, current_user: UserBase = Depends(get_current_user)):
     answersDogs = db.exec(select(AnswersDogs).where(AnswersDogs.id_question == question_id)).all()
     if not answersDogs:
         raise HTTPException(status_code=404, detail="Ответы не найдены для данного вопроса")

@@ -1,0 +1,102 @@
+body {
+    font-family: 'Ermilov', arial !important;
+    background-color: #FFB901 !important;
+    margin: 0;
+    padding: 0;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center;
+}
+header nav div a h1{
+    margin-left: 20px;
+}
+.logout{
+    border-radius: 15px;
+}
+
+/* header {
+    display: flex !important;
+
+} */
+/* header a{
+    position: absolute;
+    right: 0;
+} */
+
+.Kn-cntr {
+    justify-content: center !important;
+}
+
+button {
+    font-size: 18px !important;
+    color: rgb(0, 0, 0) ;
+    background-color: #FFC960;
+    border: none !important;
+    border-radius: 15px;
+    cursor: pointer !important;
+}
+
+button:hover {
+    background-color: #ffffff;
+    color: #000;
+}
+
+.frame {
+    border: 7px solid #FFFFFF ; /* Цвет и толщина рамки */
+    padding: 20px; /* Отступ внутри рамки */
+    width: 200px; /* Ширина */
+    height: 250px; /* Высота */
+    border-radius: 30px; /* Радиус скругления углов рамки */
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2); /* Тень для мелкой глубины */
+    text-align: center; /* Центрируем текст */
+    
+}
+
+/* .frame-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    background-color: #007bff !important;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+
+.btn-padding {
+    padding: 0px;
+    background-color: #FFC960;
+    width: 200px; /* Ширина */
+    height: 250px; /* Высота */
+    border-radius: 30px !important;
+    color: #000;
+  }
+
+.Knopka {
+    background-color: #FFC960;
+    color: #000;
+    /* border-radius: 15px !important; */
+}
+
+.Knopka.clicked {
+    background-color: #ffffff;
+    color: #000;
+    /* border-radius: 15px !important; */
+}
+
+.Knopka-border {
+    border: 5px solid #FFFFFF !important;
+    border-radius: 15px !important;
+    
+}
+#get-questions{
+    display: flex !important;
+}
+
+#start {
+    display: flex;
+    flex-direction: column;
+}
+#startTest {
+    margin-left: auto;
+    margin-right: auto;
+}
+

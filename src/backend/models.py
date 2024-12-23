@@ -7,6 +7,7 @@ class User(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     score_cat: int | None = None
     score_dog: int | None = None
+    # username: str
     email: str
     password: str
     name: str
@@ -35,7 +36,7 @@ class Dog_breed(SQLModel, table=True):
     health_risks: str
     scores_max: int
     scores_min: int
-
+    image: str
 
 class QuestionDogs(SQLModel, table=True):
     __tablename__ = "QuestionDogs"
